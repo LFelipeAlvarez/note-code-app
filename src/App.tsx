@@ -1,7 +1,7 @@
 import './App.css';
-import { useEffect, useState } from 'react';
-import { CodeEditor, LanguageType } from './types';
-import { initalEditorState, languageOptions } from './consts';
+import { useEffect } from 'react';
+import { CodeEditor } from './types';
+import { initalEditorState } from './consts';
 import GoogleLoginButton from './components/googleButton/GoogleLoginButton';
 import { useUserContext } from './hooks/useUserContext';
 import useLocalStorageState from './hooks/useLocalStorageState';
@@ -11,7 +11,6 @@ import CodeEditorComponent from './components/codeEditor/CodeEditorComponent';
 
 function App() {
   const [codeEditor, setCodeEditor] = useLocalStorageState<CodeEditor | null>('code', initalEditorState)
-  const [currentLanguage, setCurrentLanguage] = useState<LanguageType>(languageOptions[0]);
   const { user } = useUserContext()
   const navigate = useNavigate()
 
@@ -34,8 +33,6 @@ function App() {
       <CodeEditorComponent
         code={codeEditor}
         setCode={setCodeEditor}
-        currentLanguage={currentLanguage}
-        setCurrentLanguage={setCurrentLanguage}
       />
     </>
   );

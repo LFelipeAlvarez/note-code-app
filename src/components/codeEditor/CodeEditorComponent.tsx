@@ -10,12 +10,12 @@ import { addCustomSnippets } from '../../utils/codeEditorHelpers';
 type Props = {
   code: CodeEditor,
   setCode: React.Dispatch<React.SetStateAction<CodeEditor | null>>,
-  currentLanguage: LanguageType,
-  setCurrentLanguage: React.Dispatch<React.SetStateAction<LanguageType>>
 }
 
-const CodeEditorComponent = ({ code, setCode, currentLanguage, setCurrentLanguage }: Props) => {
+const CodeEditorComponent = ({ code, setCode }: Props) => {
   const [editorTheme, setEditorTheme] = useState<ThemeType>(themeOptions[0])
+  const [currentLanguage, setCurrentLanguage] = useState<LanguageType>(languageOptions[0]);
+
   const monaco = useMonaco();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const CodeEditorComponent = ({ code, setCode, currentLanguage, setCurrentLanguag
     const newCode = { ...code, [currentLanguage.id]: value }
     if (JSON.stringify(code) === JSON.stringify(newCode)) return
     setCode(newCode);
-  }, [])
+  }, [currentLanguage])
 
   return (
     <div className={editorTheme.id === 'dark' ? "editor-container editor-container--dark" : 'editor-container'}>

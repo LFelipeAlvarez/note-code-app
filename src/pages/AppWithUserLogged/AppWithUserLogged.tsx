@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CodeEditor, LanguageType } from '../../types';
+import { CodeEditor } from '../../types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
-import { languageOptions } from '../../consts';
 import CodeEditorComponent from '../../components/codeEditor/CodeEditorComponent';
 import { getNoteCode, updateNoteCode } from '../../services/codeEditor';
 import useDebounce from '../../hooks/useDebounce';
@@ -11,7 +10,6 @@ import './user-logged.css';
 function AppWithUserLogged() {
   const [codeEditor, setCodeEditor] = useState<CodeEditor | null>(null)
   const debouncedCodeEditor = useDebounce<CodeEditor | null>(codeEditor)
-  const [currentLanguage, setCurrentLanguage] = useState<LanguageType>(languageOptions[0]);
   const [isNoteCodeIdFound, setIsNoteCodeIdFound] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const lastEditorCodeRef = useRef()
@@ -83,8 +81,6 @@ function AppWithUserLogged() {
         <CodeEditorComponent
           code={codeEditor}
           setCode={setCodeEditor}
-          currentLanguage={currentLanguage}
-          setCurrentLanguage={setCurrentLanguage}
         />
       </>
   )
