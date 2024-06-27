@@ -1,84 +1,43 @@
 import './App.css';
-import * as monacoEditor from 'monaco-editor';
-
-import { Editor, OnMount, useMonaco } from '@monaco-editor/react';
-import { useEffect, useRef, useState } from 'react';
-import { AspectRatio, Box, Card, Skeleton } from '@mui/joy';
-import { addCustomSnippets, defaultValue } from './utils/editorVars';
-import { LanguageType } from './types';
-
-
-const initalState = {
-  html: defaultValue,
-  css: '',
-  javascript: 'js code'
-}
-
+import { useEffect, useState } from 'react';
+import { CodeEditor, LanguageType } from './types';
+import { initalEditorState, languageOptions } from './consts';
+import GoogleLoginButton from './components/googleButton/GoogleLoginButton';
+import { useUserContext } from './hooks/useUserContext';
+import useLocalStorageState from './hooks/useLocalStorageState';
+import { useNavigate } from 'react-router-dom';
+import { getNoteCode } from './services/codeEditor';
+import CodeEditorComponent from './components/codeEditor/CodeEditorComponent';
 
 function App() {
-  const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
-  const [codeSnippet, setCodeSnippet] = useState(JSON.parse(localStorage.getItem('code')!) ?? initalState);
-  const [currentLanguage, setCurrentLanguage] = useState<LanguageType>('html')
-  const monaco = useMonaco();
+  const [codeEditor, setCodeEditor] = useLocalStorageState<CodeEditor | null>('code', initalEditorState)
+  const [currentLanguage, setCurrentLanguage] = useState<LanguageType>(languageOptions[0]);
+  const { user } = useUserContext()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    localStorage.setItem('code', JSON.stringify(codeSnippet));
-  }, [codeSnippet]);
-
-  useEffect(() => {
-    if (monaco) {
-      addCustomSnippets(monaco);
+    if (user?.email) {
+      (async () => {
+        const noteCode = await getNoteCode('owner', user._id, user.sessionToken)
+        navigate(`/notecode/${noteCode._id}`);
+      })()
+      return
     }
-  }, [monaco]);
 
-  const onMount: OnMount = (editor) => {
-    editorRef.current = editor;
-    editor.focus();
-  };
-
-  const handleEditorChange = (value: string | undefined) => {
-    setCodeSnippet({ ...codeSnippet, [currentLanguage]: value })
-  };
+  }, []);
 
 
   return (
-    <main>
-      <img src='/NoteCodeLogo.svg' alt='logo' />
-      <h1>Create & Share</h1>
-      <h2>Your Code easily</h2>
-      <Editor
-        height='100'
-        theme='vs-light'
-        className='editor'
-        language={currentLanguage}
-        value={codeSnippet[currentLanguage as keyof typeof codeSnippet]}
-        onMount={onMount}
-        onChange={handleEditorChange}
-        options={{
-          padding: {
-            top: 20,
-            bottom: 20,
-          },
-          automaticLayout: true,
-          scrollbar: {
-            verticalScrollbarSize: 5,
-            alwaysConsumeMouseWheel: false
-          },
-        }}
-        loading={
-          <Card className='editor' sx={{ width: '100%', overflowY: 'hidden' }}>
-            <AspectRatio ratio='9/11'>
-              <Skeleton
-                variant='overlay'
-                animation={'wave'}
-              >
-                <img alt='' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=' />
-              </Skeleton>
-            </AspectRatio>
-          </Card>
-        }
+    codeEditor &&
+    <>
+      <GoogleLoginButton codeEditor={codeEditor} />
+      <CodeEditorComponent
+        code={codeEditor}
+        setCode={setCodeEditor}
+        currentLanguage={currentLanguage}
+        setCurrentLanguage={setCurrentLanguage}
       />
-    </main>
+    </>
   );
 }
 

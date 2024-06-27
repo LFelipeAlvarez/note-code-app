@@ -1,0 +1,18 @@
+.button {
+  height: 2.7rem;
+  width: 7rem;
+  border-radius: 2rem;
+  color: #FFFFFE;
+  background-color: #406AFF;
+  cursor: pointer;
+  transition: opacity .2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+
+  &:hover {
+    opacity: .9;
+  }
+
+}

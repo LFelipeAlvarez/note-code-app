@@ -1,0 +1,17 @@
+.user-info {
+  width: 6.25rem;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  &>img {
+    width: 3.125rem;
+    border-radius: 50%;
+  }
+
+  &>button {
+    cursor: pointer;
+  }
+}
