@@ -74,7 +74,7 @@ function AppWithUserLogged() {
   return (
     isLoading || codeEditor === null
       ?
-      <Card className="editor" sx={{ width: '90%', overflowY: 'hidden', marginInline: 'auto' }}>
+      <Card className="editor" sx={{ width: '90%', overflowY: 'hidden', marginInline: 'auto', maxWidth: '56.25rem' }}>
         <AspectRatio ratio="9/11">
           <Skeleton variant="overlay" animation={'wave'}>
             <img alt="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
