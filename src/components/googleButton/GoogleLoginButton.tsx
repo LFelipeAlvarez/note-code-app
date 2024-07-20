@@ -6,8 +6,12 @@ import { createUser, login } from '../../services/userServices';
 import { useNavigate } from 'react-router-dom';
 import { createNoteCode, getNoteCode } from '../../services/codeEditor';
 import './google-button.css'
+import { useState } from 'react';
+import { AspectRatio, Card, Skeleton } from '@mui/joy';
 
 const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) => {
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const { setUser } = useUserContext()
   const navigate = useNavigate()
@@ -17,6 +21,7 @@ const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) =>
     try {
       const { credential } = tokenResponse
       if (credential) {
+        setIsLoading(true)
         const { sub, email, name, picture } = jwtDecode(credential) as GooglePayload
         const { user, statusResponse } = await createUser(credential)
         const { _id } = user
@@ -39,12 +44,16 @@ const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) =>
       }
     } catch (error) {
       console.error('Error on google login, OnSuccess callback: ', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const onError = () => {
     console.error('Login Failed');
   }
+
+  if (isLoading) return <p className='user-info'>Loading user...</p>
 
   return (
     <div className='google-button'>

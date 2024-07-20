@@ -6,6 +6,7 @@ import CodeEditorComponent from '../../components/codeEditor/CodeEditorComponent
 import { getNoteCode, updateNoteCode } from '../../services/codeEditor';
 import useDebounce from '../../hooks/useDebounce';
 import './user-logged.css';
+import { AspectRatio, Card, Skeleton } from '@mui/joy';
 
 function AppWithUserLogged() {
   const [codeEditor, setCodeEditor] = useState<CodeEditor | null>(null)
@@ -72,8 +73,16 @@ function AppWithUserLogged() {
 
   return (
     isLoading || codeEditor === null
-      ? <p>Loading...</p>
-      : <>
+      ?
+      <Card className="editor" sx={{ width: '90%', overflowY: 'hidden', marginInline: 'auto' }}>
+        <AspectRatio ratio="9/11">
+          <Skeleton variant="overlay" animation={'wave'}>
+            <img alt="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
+          </Skeleton>
+        </AspectRatio>
+      </Card>
+      :
+      <>
         <p className='user-info'>
           <img src={user?.picture} alt="user picture" />
           <button onClick={logOut}>← Log out</button>
