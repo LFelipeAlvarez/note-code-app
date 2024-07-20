@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { createNoteCode, getNoteCode } from '../../services/codeEditor';
 import './google-button.css'
 import { useState } from 'react';
-import { AspectRatio, Card, Skeleton } from '@mui/joy';
 
 const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) => {
 
