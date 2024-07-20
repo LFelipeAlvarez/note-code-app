@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { createNoteCode, getNoteCode } from '../../services/codeEditor';
 import './google-button.css'
 import { useState } from 'react';
+import { CircularProgress } from '@mui/joy';
 
 const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) => {
 
@@ -52,7 +53,7 @@ const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) =>
     console.error('Login Failed');
   }
 
-  if (isLoading) return <p className='user-info'>Wait a moment please.</p>
+  if (isLoading) return <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /></div>
 
   return (
     <div className='google-button'>

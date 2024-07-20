@@ -65,12 +65,6 @@ function AppWithUserLogged() {
 
   if (!isNoteCodeIdFound) return <div>404 Not found</div>
 
-  const logOut = () => {
-    setUser(null)
-    navigate('/')
-  }
-
-
   return (
     isLoading || codeEditor === null
       ?
@@ -82,16 +76,10 @@ function AppWithUserLogged() {
         </AspectRatio>
       </Card>
       :
-      <>
-        <p className='user-info'>
-          <img src={user?.picture} alt="user picture" />
-          <button onClick={logOut}>← Log out</button>
-        </p>
-        <CodeEditorComponent
-          code={codeEditor}
-          setCode={setCodeEditor}
-        />
-      </>
+      <CodeEditorComponent
+        code={codeEditor}
+        setCode={setCodeEditor}
+      />
   )
 }
 
