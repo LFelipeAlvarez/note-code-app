@@ -30,7 +30,7 @@ export const defaultValue = `<html>
       }
     </style>
     <script type="text/javascript">
-      alert("I am a sample... visit devChallengs.io for more projects");
+      alert("I am a sample...");
     </script>
   </head>
   <body>

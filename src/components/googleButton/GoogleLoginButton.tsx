@@ -52,7 +52,7 @@ const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) =>
     console.error('Login Failed');
   }
 
-  if (isLoading) return <p className='user-info'>Loading user...</p>
+  if (isLoading) return <p className='user-info'>Loading... Wait a moment please</p>
 
   return (
     <div className='google-button'>
