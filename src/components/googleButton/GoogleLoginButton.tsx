@@ -55,6 +55,7 @@ const GoogleLoginButton = ({ codeEditor }: { codeEditor: CodeEditor | null }) =>
 
   if (isLoading) return <div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /></div>
 
+
   return (
     <div className='google-button'>
       <GoogleLogin text='signin' onSuccess={onSuccess} onError={onError} />

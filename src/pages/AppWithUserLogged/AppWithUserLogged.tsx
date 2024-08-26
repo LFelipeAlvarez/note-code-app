@@ -21,6 +21,7 @@ function AppWithUserLogged() {
   const navigate = useNavigate()
 
   useEffect(() => {
+
     if (!user?._id) {
       navigate('/')
       return
